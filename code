@@ -1,0 +1,94 @@
+.model small
+.stack 100h
+.data 
+msg1 db 10,13," enter first number ","$"
+msg2 db 10,13," enter second number ","$"
+msg3 db 10,13," choose operation '+,-,*,/' : ","$"
+msg4 db 10,13,"result : ","$"
+msg5 db 10,13,"invalied operation ","$"
+.code 
+  main proc far 
+  .startup
+  mov dx , offset msg1
+  mov ah,09h
+  int 21h
+  mov ah ,01h   
+  int 21h
+  sub al,48
+  mov ah,0
+  push ax 
+  mov dx ,offset msg2
+  mov ah,09h
+  int 21h
+  mov ah ,01h   
+  int 21h
+  sub al,48
+  mov bl,al
+  ;display operators msg
+  mov dx ,offset msg3
+  mov ah,09h
+  int 21h
+  mov ah ,01h          ;stores in al  
+  int 21h 
+  cmp al,'+'
+  je a
+  CMP AL,'-'
+  JE s
+  cmp al,'*'
+  je m
+  cmp al,'/'
+  je d
+  jne i
+  a:
+   mov dx ,offset msg4
+   mov ah,09h
+   int 21h
+   pop ax 
+   add al,bl
+   add al,48
+   mov dl,al
+   mov ah,02h
+   int 21h
+   jmp stop
+  s: 
+    mov dx ,offset msg4
+   mov ah,09h
+   int 21h
+   pop ax 
+   sub al,bl
+   add al,48
+   mov dl,al
+   mov ah,02h
+   int 21h
+   jmp stop
+  m:
+   mov dx ,offset msg4
+   mov ah,09h
+   int 21h
+   pop ax 
+   mul bl
+   add al,48
+   mov dl,al
+   mov ah,02h
+   int 21h
+   jmp stop
+  d:
+   mov dx ,offset msg4
+   mov ah,09h
+   int 21h
+   pop ax 
+   div bl
+   add al,48
+   mov dl,al
+   mov ah,02h
+   int 21h
+   jmp stop
+  i:
+   mov dx , offset msg5
+   mov ah,09h
+   int 21h
+ stop:
+  .exit
+  main endp
+end main
+;;;;;;;;;;;;;;;donnnnnnnnnneeeeeeeeeeeee;;;;;;;;;;;;;;;;
