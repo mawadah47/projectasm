@@ -1,11 +1,12 @@
 .model small
 .stack 100h
 .data 
-msg1 db 10,13," enter first number ","$"
-msg2 db 10,13," enter second number ","$"
+msg1 db 10,13," enter first number : ","$"
+msg2 db 10,13," enter second number : ","$"
 msg3 db 10,13," choose operation '+,-,*,/' : ","$"
-msg4 db 10,13,"result : ","$"
-msg5 db 10,13,"invalied operation ","$"
+msg4 db 10,13," result : ","$"
+msg5 db 10,13," invalied operation ","$"
+msg6 db 10,13," modulus : ","$"
 .code 
   main proc far 
   .startup
@@ -43,7 +44,7 @@ msg5 db 10,13,"invalied operation ","$"
    mov dx ,offset msg4
    mov ah,09h
    int 21h
-   pop ax 
+   pop ax                 ; pop from stack to ax the first entered number 
    add al,bl
    add al,48
    mov dl,al
@@ -76,10 +77,20 @@ msg5 db 10,13,"invalied operation ","$"
    mov dx ,offset msg4
    mov ah,09h
    int 21h
-   pop ax 
+   pop ax                 
    div bl
    add al,48
    mov dl,al
+   mov al,0
+   push ax
+   mov ah,02h
+   int 21h
+   mov dx ,offset msg6
+   mov ah,09h
+   int 21h
+   pop ax
+   add ah,48
+   mov dl,ah
    mov ah,02h
    int 21h
    jmp stop
@@ -91,4 +102,4 @@ msg5 db 10,13,"invalied operation ","$"
   .exit
   main endp
 end main
-;;;;;;;;;;;;;;;donnnnnnnnnneeeeeeeeeeeee;;;;;;;;;;;;;;;;
+
